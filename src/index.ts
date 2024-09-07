@@ -1,5 +1,5 @@
 #!/usr/bin/env -S npx tsx
-import { $, argv } from "zx";
+import { $, argv, chalk } from "zx";
 import path from "path";
 import { fileURLToPath } from "url";
 import { readdir } from "fs/promises";
@@ -45,7 +45,12 @@ async function createService(serviceName: string) {
     const destFile = join(targetPath, destFileName);
 
     await $`sed 's/${PLACEHOLDER}/${pascalServiceName}/g' ${sourceFile} > ${destFile}`;
+    logCreatedFile(destFile);
   }
+}
+
+function logCreatedFile(filePath: string) {
+  console.log(chalk.green(`Created ${filePath}`));
 }
 
 async function createComponent(componentName: string, componentPath: string) {
@@ -79,6 +84,7 @@ async function copyFiles(
     const destFile = join(targetPath, destFileName);
 
     await $`sed 's/${PLACEHOLDER}/${componentName}/g' ${sourceFile} > ${destFile}`;
+    logCreatedFile(destFile);
   }
 }
 
