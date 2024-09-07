@@ -1,8 +1,8 @@
 {
-  "name": "wgen",
+  "name": "@rohilaharsh/wgen",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A CLI tool for generating React.js files",
+  "main": "dist/index.js",
   "bin": {
     "wgen": "dist/index.js"
   },
@@ -11,9 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pkgroll"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Harsh Rohila",
+  "license": "MIT",
   "devDependencies": {
     "pkgroll": "^2.4.2",
     "tsx": "^4.19.0"
@@ -21,6 +20,15 @@
   "dependencies": {
     "zx": "^8.1.5"
   },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "cli",
+    "command-line",
+    "tool",
+    "react"
+  ],
   "volta": {
     "node": "20.17.0"
   }
