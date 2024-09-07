@@ -7,17 +7,44 @@ import { join } from "path";
 
 const PLACEHOLDER = "templatename";
 
-const [type, componentName] = argv._;
+const { c: componentName, f: featureName, s: serviceName } = argv;
 
 const projectPath = process.cwd();
 
-switch (type) {
-  case "c": {
-    await createComponent(componentName, "src/components");
-  }
-  case "fc": {
-    const featureFolder = pascalToHyphenated(componentName);
-    await createComponent(componentName, `src/features/${featureFolder}`);
+if (featureName && componentName) {
+  await createComponent(
+    componentName,
+    `src/features/${featureName}/components`
+  );
+} else if (componentName) {
+  await createComponent(componentName, "src/components");
+} else if (serviceName) {
+  await createService(serviceName);
+}
+
+async function createService(serviceName: string) {
+  const fName = featureName || serviceName;
+
+  const targetPath = `src/features/${fName}/services`;
+
+  await $`mkdir -p ${targetPath}`;
+
+  const templatePath = path.join(getDirName(), `../templates/service`);
+  const files = await readdir(templatePath);
+
+  const pascalServiceName = hyphenatedToPascal(serviceName);
+
+  for (const file of files) {
+    const sourceFile = join(templatePath, file);
+
+    let destFileName = file;
+    if (file.includes(PLACEHOLDER)) {
+      destFileName = file.replace(PLACEHOLDER, pascalServiceName);
+    }
+
+    const destFile = join(targetPath, destFileName);
+
+    await $`sed 's/${PLACEHOLDER}/${pascalServiceName}/g' ${sourceFile} > ${destFile}`;
   }
 }
 
@@ -26,9 +53,18 @@ async function createComponent(componentName: string, componentPath: string) {
     projectPath,
     path.join(componentPath, componentName)
   );
-  const templatePath = path.join(getDirName(), "../templates/component");
 
   await $`mkdir -p ${targetPath}`;
+
+  await copyFiles(componentName, targetPath, "component");
+}
+
+async function copyFiles(
+  componentName: string,
+  targetPath: string,
+  templateName: string
+) {
+  const templatePath = path.join(getDirName(), `../templates/${templateName}`);
 
   const files = await readdir(templatePath);
 

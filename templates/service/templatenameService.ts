@@ -1,0 +1,3 @@
+const templatenameService = {};
+
+export { templatenameService };

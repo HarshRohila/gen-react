@@ -1,6 +1,6 @@
 {
   "name": "@rohilaharsh/wgen",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI tool for generating React.js files",
   "main": "dist/index.js",
   "bin": {
@@ -10,6 +10,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pkgroll",
+    "prepublishOnly": "pnpm build",
+    "clear": "rm -rf src/components src/features",
     "publish": "npm publish --access=public"
   },
   "author": "Harsh Rohila",
