@@ -21,7 +21,8 @@
     "zx": "^8.1.5"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "templates/**/*"
   ],
   "keywords": [
     "cli",
