@@ -5,14 +5,18 @@ import { fileURLToPath } from "url";
 import { readdir } from "fs/promises";
 import { join } from "path";
 
-const component = argv.c;
+const PLACEHOLDER = "templatename";
+
+const componentName = argv.c;
 
 const projectPath = process.cwd();
 
-if (component) {
-  const targetPath = path.relative(projectPath, `src/components/${component}`);
+if (componentName) {
+  const targetPath = path.relative(
+    projectPath,
+    `src/components/${componentName}`
+  );
   const templatePath = path.join(getDirName(), "../templates/component");
-  console.log(templatePath, targetPath);
 
   await $`mkdir -p ${targetPath}`;
 
@@ -22,18 +26,13 @@ if (component) {
     const sourceFile = join(templatePath, file);
 
     let destFileName = file;
-    if (file.includes("templatename")) {
-      destFileName = file.replace("templatename", component);
+    if (file.includes(PLACEHOLDER)) {
+      destFileName = file.replace(PLACEHOLDER, componentName);
     }
 
     const destFile = join(targetPath, destFileName);
 
-    // Use sed to replace "templatename" with "Harsh" in each file and save changes to a temporary file
-    await $`sed 's/templatename/${component}/g' ${sourceFile} > ${destFile}`;
-
-    // Optionally, move the processed file to the destination directory (done by sed already)
-    // If you want to delete the original file:
-    // await $`mv ${destFile} ${destinationDir}`;
+    await $`sed 's/${PLACEHOLDER}/${componentName}/g' ${sourceFile} > ${destFile}`;
   }
 }
 
