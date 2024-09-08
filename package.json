@@ -6,6 +6,10 @@
   "bin": {
     "wgen": "dist/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarshRohila/gen-react.git"
+  },
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
