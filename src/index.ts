@@ -7,7 +7,17 @@ import { join } from "path";
 
 const PLACEHOLDER = "templatename";
 
-const { c: componentName, f: featureName, s: serviceName } = argv;
+const { f: featureName } = argv;
+const [type, name] = argv._;
+
+let componentName = "";
+let serviceName = "";
+
+if (type === "c") {
+  componentName = name;
+} else if (type == "s") {
+  serviceName = name;
+}
 
 const projectPath = process.cwd();
 

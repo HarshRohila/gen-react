@@ -11,11 +11,11 @@ describe("Component Creation", () => {
   });
 
   it("creates component", async () => {
-    await $`tsx ./src/index.ts -c AwesomeComponent`;
+    await $`tsx ./src/index.ts c AwesomeComponent`;
 
     const expectedFilePath = "./src/components/AwesomeComponent/component.tsx";
 
-    const expectedContent = `import { FC } from "react";
+    const expectedContent = `import React, { FC } from "react";
 
 			interface AwesomeComponentProps {}
 			
@@ -29,12 +29,12 @@ describe("Component Creation", () => {
   });
 
   it("creates feature component", async () => {
-    await $`tsx ./src/index.ts -c AwesomeComponent -f awesome-feat`;
+    await $`tsx ./src/index.ts c AwesomeComponent -f awesome-feat`;
 
     const expectedFilePath =
       "./src/features/awesome-feat/components/AwesomeComponent/component.tsx";
 
-    const expectedContent = `import { FC } from "react";
+    const expectedContent = `import React, { FC } from "react";
 
 			interface AwesomeComponentProps {}
 			

@@ -11,7 +11,7 @@ describe("Service Creation", () => {
   });
 
   it("creates service", async () => {
-    await $`tsx ./src/index.ts -s person`;
+    await $`tsx ./src/index.ts s person`;
 
     const expectedFilePath = "./src/features/person/services/PersonService.ts";
 
@@ -23,7 +23,7 @@ describe("Service Creation", () => {
   });
 
   it("creates service within feature", async () => {
-    await $`tsx ./src/index.ts -s person -f user`;
+    await $`tsx ./src/index.ts s person -f user`;
 
     const expectedFilePath = "./src/features/user/services/PersonService.ts";
 

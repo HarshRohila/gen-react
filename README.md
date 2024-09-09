@@ -17,9 +17,9 @@ For npm use
 
 Then you can use below commands in your React project
 
-- `wgen -c <ComponentName>`
+- `wgen c <ComponentName>`
   - will create component under `src/components`
-- `wgen -c <ComponentName> -f <feature-name>`
+- `wgen c <ComponentName> -f <feature-name>`
   - will create component under `src/features/<feature-name>/components`
-- `wgen -s <service-name> -f <feature-name>`
+- `wgen s <service-name> -f <feature-name>`
   - will create service under `src/features/<feature-name>/services`
