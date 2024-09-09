@@ -6,38 +6,46 @@ import { readdir } from "fs/promises";
 import { join } from "path";
 
 const PLACEHOLDER = "templatename";
+const CAMELCASE_PLACEHOLDER = "templateName";
 
 const { f: featureName } = argv;
 const [type, name] = argv._;
 
-let componentName = "";
-let serviceName = "";
-
-if (type === "c") {
-  componentName = name;
-} else if (type == "s") {
-  serviceName = name;
-}
-
 const projectPath = process.cwd();
 
-if (featureName && componentName) {
-  await createComponent(
-    componentName,
-    `src/features/${featureName}/components`
-  );
-} else if (componentName) {
-  await createComponent(componentName, "src/components");
-} else if (serviceName) {
-  await createService(serviceName);
+switch (type) {
+  case "c": {
+    if (featureName) {
+      await createComponent(name, `src/features/${featureName}/components`);
+    } else {
+      await createComponent(name, "src/components");
+    }
+    break;
+  }
+  case "s": {
+    await createService(name);
+    break;
+  }
+  case "rs": {
+    await createReduxSlice(name);
+    break;
+  }
+}
+
+async function createReduxSlice(name: string) {
+  const targetPath = await setTargetPath(`src/redux/slices/${name}`);
+  await copyFiles(name, targetPath, "redux-slice");
+}
+
+async function setTargetPath(path: string) {
+  await $`mkdir -p ${path}`;
+  return path;
 }
 
 async function createService(serviceName: string) {
   const fName = featureName || serviceName;
 
-  const targetPath = `src/features/${fName}/services`;
-
-  await $`mkdir -p ${targetPath}`;
+  const targetPath = await setTargetPath(`src/features/${fName}/services`);
 
   const templatePath = path.join(getDirName(), `../templates/service`);
   const files = await readdir(templatePath);
@@ -94,6 +102,8 @@ async function copyFiles(
     const destFile = join(targetPath, destFileName);
 
     await $`sed 's/${PLACEHOLDER}/${componentName}/g' ${sourceFile} > ${destFile}`;
+    const camelCase = kebabToCamelCase(componentName);
+    await $`sed -i '' 's/${CAMELCASE_PLACEHOLDER}/${camelCase}/g' ${destFile}`;
     logCreatedFile(destFile);
   }
 }
@@ -111,9 +121,6 @@ function hyphenatedToPascal(name: string): string {
     .join(""); // Join the words back together without spaces
 }
 
-function pascalToHyphenated(name: string): string {
-  return name
-    .replace(/([a-z])([A-Z])/g, "$1-$2") // Add hyphen between lowercase and uppercase letters
-    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2") // Add hyphen between consecutive uppercase letters
-    .toLowerCase(); // Convert to lowercase
+function kebabToCamelCase(str: string): string {
+  return str.replace(/-./g, (match) => match[1].toUpperCase());
 }

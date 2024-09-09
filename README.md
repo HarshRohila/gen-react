@@ -23,3 +23,5 @@ Then you can use below commands in your React project
   - will create component under `src/features/<feature-name>/components`
 - `wgen s <service-name> -f <feature-name>`
   - will create service under `src/features/<feature-name>/services`
+- `wgen rs <slice-name>`
+  - will create service under `src/redux/slices/<slice-name>`
