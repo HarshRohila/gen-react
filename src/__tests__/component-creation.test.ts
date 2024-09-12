@@ -13,7 +13,7 @@ describe("Component Creation", () => {
   it("creates component", async () => {
     await $`tsx ./src/index.ts c AwesomeComponent`;
 
-    const expectedFilePath = "./src/components/AwesomeComponent/component.tsx";
+    const expectedFilePath = "./src/components/AwesomeComponent/index.tsx";
 
     const expectedContent = `import React, { FC } from "react";
 
@@ -32,7 +32,7 @@ describe("Component Creation", () => {
     await $`tsx ./src/index.ts c AwesomeComponent -f awesome-feat`;
 
     const expectedFilePath =
-      "./src/features/awesome-feat/components/AwesomeComponent/component.tsx";
+      "./src/features/awesome-feat/components/AwesomeComponent/index.tsx";
 
     const expectedContent = `import React, { FC } from "react";
 
